@@ -7,18 +7,38 @@
 
 import SwiftUI
 
-let themeImages: [String: String] = [
-    "Halloween": "🎃",
-    "Transport": "🚗",
-    "Sport": "🎾"
-]
+struct Theme {
+    let symbolName: String
+    let title: String
+    let cardImage: [String]
+}
 
 struct ContentView: View {
-    let themes: [String: [String]] = [
-        "Halloween" : ["👻", "😈", "🎃", "☠️", "👽", "💀", "🧛‍♂️", "💩"],
-        "Transport" : ["🚗", "🚜", "🚲", "🚑", "🚔", "🎡", "🛴", "🛞"],
-        "Sport": ["🏀", "🎾", "⚽️", "🏓", "🥅", "🛼", "⛸️", "🏹"]
+    let themes: [Theme] = [
+        Theme(
+            symbolName: "moon.stars.fill",
+            title: "Halloween",
+            cardImage: ["👻", "😈", "🎃", "☠️", "👽", "💀", "🧛‍♂️", "💩"]
+        ),
+        Theme(
+            symbolName: "car.fill",
+            title: "Transport",
+            cardImage: ["🚗", "🚜", "🚲", "🚑", "🚔", "🎡", "🛴", "🛞"]
+        ),
+        Theme(
+            symbolName: "tennisball.fill",
+            title: "Sport",
+            cardImage: ["🏀", "🎾", "⚽️", "🏓", "🥅", "🛼", "⛸️", "🏹"])
+        
     ]
+    
+    
+//    [String: [String]] = [
+//        "Halloween" : ["👻", "😈", "🎃", "☠️", "👽", "💀", "🧛‍♂️", "💩"],
+//        "Transport" : ["🚗", "🚜", "🚲", "🚑", "🚔", "🎡", "🛴", "🛞"],
+//        "Sport": ["🏀", "🎾", "⚽️", "🏓", "🥅", "🛼", "⛸️", "🏹"]
+//    ]
+    
     @State var currentTheme: String = "Halloween"
     //@State var cardCount: Int = 16
     let numberOfPairs: Int = 8
@@ -26,10 +46,11 @@ struct ContentView: View {
     //8 пар всего 16 карточек
     @State private var pairedEmojis: [String] = []
     
-    func generatedPairs(for theme: String) -> [String] {
-        let emojis = themes[currentTheme] ?? []
+    func generatedPairs(for themeTitle: String) -> [String] {
+        guard let theme = themes.first(where: { $0.title == themeTitle }) else {return []}
+        let emojis = theme.cardImage
         let selected = Array(emojis.shuffled().prefix(numberOfPairs))
-        let pairs = Array(selected) + Array(selected)
+        let pairs = selected + selected
         return pairs.shuffled()
     }
     
@@ -37,9 +58,7 @@ struct ContentView: View {
         _pairedEmojis = State(initialValue: [])
     }
     
-//    var emojis: [String] {
-//        themes[currentTheme] ?? []
-//    }
+    
     var body: some View {
         VStack {
             Text("Memorize!")
@@ -69,51 +88,31 @@ struct ContentView: View {
             .aspectRatio(1, contentMode: .fit)
             .padding(.bottom)
             
-//            ScrollView {
-//                cards
-//            }
+
         Spacer()
             themeButtons
         }
         .padding()
     }
     
-//    var cardCoundAdjusters: some View {
-//        HStack {
-//            cardRemover
-//            Spacer()
-//            cardAdder
-//        }
-//        .imageScale(.large)
-//        .font(.largeTitle)
-//    }
-    
-//    var cards: some View {
-//        LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]) {
-//            ForEach(0..<cardCount, id: \.self) { index in
-//                CardView(content: pairedEmojis[index])
-//                    .aspectRatio(2/3, contentMode: .fit)
-//            }
-//        }
-//        .foregroundColor(.orange)
-//    }
+
     
     //кнопка выбора темы
     var themeButtons: some View {
         HStack {
-            ForEach(Array(themes.keys), id: \.self) { theme in
-                let isSelected = currentTheme == theme
+            ForEach(themes, id: \.title) { theme in
+                let isSelected = currentTheme == theme.title
                 let bgColor = isSelected ? Color.orange : Color.gray.opacity(0.2)
                 let fgColor: Color = isSelected ? .white : .black
                 
                 Button(action: {
-                    currentTheme = theme
-                    pairedEmojis = generatedPairs(for: theme)
+                    currentTheme = theme.title
+                    pairedEmojis = generatedPairs(for: theme.title)
                 }) {
                     VStack(spacing:4) {
-                        Text(themeImages[theme] ?? "")
+                        Image(systemName: theme.symbolName)
                             .font(.largeTitle)
-                    Text(theme)
+                        Text(theme.title)
                             .padding(8)
                             .background(bgColor)
                             .foregroundColor(fgColor)
@@ -128,23 +127,6 @@ struct ContentView: View {
         }
         .padding(.horizontal)
     }
-    
-//    func cardCountAdjuster(by offcet: Int, symbol: String) -> some View {
-//        Button(action: {
-//                cardCount += offcet
-//            }, label:{
-//            Image(systemName: symbol)
-//        })
-//        .disabled(cardCount + offcet < 1 || cardCount + offcet > emojis.count)
-//    }
-//    
-//    var cardRemover: some View {
-//        return cardCountAdjuster(by: -1, symbol: "minus.circle.fill")
-//    }
-//    
-//    var cardAdder: some View {
-//        return cardCountAdjuster(by: +1, symbol: "plus.circle.fill")
-//    }
     
     //карточка
     struct CardView: View {
