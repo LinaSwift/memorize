@@ -24,6 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EA61D5152E15245200E90385 /* Untitled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Untitled.swift; sourceTree = "<group>"; };
 		EABFB2DD2E059357007EBE63 /* Memorize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memorize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EABFB2EA2E059358007EBE63 /* MemorizeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MemorizeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EABFB2F42E059358007EBE63 /* MemorizeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MemorizeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,6 +80,7 @@
 				EABFB2ED2E059358007EBE63 /* MemorizeTests */,
 				EABFB2F72E059358007EBE63 /* MemorizeUITests */,
 				EABFB2DE2E059357007EBE63 /* Products */,
+				EA61D5152E15245200E90385 /* Untitled.swift */,
 			);
 			sourceTree = "<group>";
 		};
